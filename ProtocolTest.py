@@ -3,8 +3,8 @@
 from unittest import TestCase
 import struct
 
-import protocol.buffer.byte_buffer as byte_buffer
-import protocol.objectB as objectB
+import buffer.byte_buffer as byte_buffer
+import pyProtocol.objectB as objectB
 
 
 def print_bytearray(array):
