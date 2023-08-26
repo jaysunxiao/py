@@ -3,10 +3,9 @@
 from unittest import TestCase
 import struct
 
-import buffer.byte_buffer as byte_buffer
-import pyProtocol.objectB as objectB
-import pyProtocol.ProtocolManager as objectB
-
+from pyProtocol import ProtocolManager
+from pyProtocol import ByteBuffer
+import pyProtocol.ObjectB as ObjectB
 
 def print_bytearray(array):
     signed_byte_array = struct.unpack('b' * len(array), array)
@@ -17,29 +16,25 @@ def print_bytearray(array):
 class ByteBufferTestCase(TestCase):
     def test_complex_object(self):
         # 打开文件并读取内容
-        with open('ComplexObject.bytes', 'rb') as file:
+        with open('NormalObject.bytes', 'rb') as file:
             content = file.read()
 
         # 将内容转为bytearray
         byte_array = bytearray(content)
+        byteBuffer = ByteBuffer.ByteBuffer()
+        byteBuffer.writeBytes(byte_array)
 
+        obj = ProtocolManager.read(byteBuffer)
         # 打印bytearray
         print(byte_array)
-
-        byteBuffer = byte_buffer.ByteBuffer()
-        obj = objectB.ObjectB()
-        obj.flag = True
-        objectB.ObjectB.write(byteBuffer, obj)
-        newObj = objectB.ObjectB.read(byteBuffer)
-        print(newObj)
         pass
 
     def test_object(self):
-        byteBuffer = byte_buffer.ByteBuffer()
-        obj = objectB.ObjectB()
+        byteBuffer = ByteBuffer.ByteBuffer()
+        obj = ObjectB.ObjectB()
         obj.flag = True
-        objectB.ObjectB.write(byteBuffer, obj)
-        newObj = objectB.ObjectB.read(byteBuffer)
+        ObjectB.ObjectB.write(byteBuffer, obj)
+        newObj = ObjectB.ObjectB.read(byteBuffer)
         print(newObj)
         pass
 
@@ -50,12 +45,12 @@ class ByteBufferTestCase(TestCase):
         pass
 
     def test_buffer_raw_int(self):
-        byteBuffer = byte_buffer.ByteBuffer()
+        byteBuffer = ByteBuffer.ByteBuffer()
         byteBuffer.writeRawInt(2147483647)
         self.assertEqual(byteBuffer.readRawInt(), 2147483647)
 
     def test_buffer_int(self):
-        byteBuffer = byte_buffer.ByteBuffer()
+        byteBuffer = ByteBuffer.ByteBuffer()
         byteBuffer.writeInt(2147483647)
         self.assertEqual(byteBuffer.readInt(), 2147483647)
         byteBuffer.writeInt(-2147483648)
@@ -63,7 +58,7 @@ class ByteBufferTestCase(TestCase):
         pass
 
     def test_buffer_long(self):
-        byteBuffer = byte_buffer.ByteBuffer()
+        byteBuffer = ByteBuffer.ByteBuffer()
         byteBuffer.writeLong(9223372036854775807)
         self.assertEqual(byteBuffer.readLong(), 9223372036854775807)
         print_bytearray(byteBuffer.buffer)
@@ -72,7 +67,7 @@ class ByteBufferTestCase(TestCase):
         pass
 
     def test_buffer(self):
-        byteBuffer = byte_buffer.ByteBuffer()
+        byteBuffer = ByteBuffer.ByteBuffer()
         print(byteBuffer.writeOffset)
         print(byteBuffer.readOffset)
         print(byteBuffer.getCapacity())

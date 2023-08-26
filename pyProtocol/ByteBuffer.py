@@ -1,4 +1,5 @@
 import struct
+from . import ProtocolManager
 
 maxSize = 655537
 maxInt = 2147483647
@@ -307,3 +308,12 @@ class ByteBuffer():
         else:
             self.writeBool(True)
         pass
+
+    def writePacket(self, packet, protocolId):
+        protocolRegistration = ProtocolManager.getProtocol(protocolId)
+        protocolRegistration.write(self, packet)
+
+
+    def readPacket(self, protocolId):
+        protocolRegistration = ProtocolManager.getProtocol(protocolId)
+        return protocolRegistration.read(self)
