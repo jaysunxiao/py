@@ -27,6 +27,10 @@ class ByteBuffer():
                              "(expected:0 <= readerIndex <= writerIndex <= capacity:" + str(len(self.buffer)))
         self.readOffset = readOffset
 
+    def isReadable(self):
+        return self.writeOffset > self.readOffset
+        pass
+
     def getCapacity(self):
         return len(self.buffer) - self.writeOffset
 
@@ -290,3 +294,10 @@ class ByteBuffer():
         value = byte_array.decode('utf-8')
         self.readOffset += length
         return value
+
+    def writePacketFlag(self, value):
+        if value is None:
+            self.writeBool(False)
+        else:
+            self.writeBool(True)
+        pass

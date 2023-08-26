@@ -4,6 +4,7 @@ from unittest import TestCase
 import struct
 
 import protocol.buffer.byte_buffer as byte_buffer
+import protocol.objectA as objectA
 
 
 def print_bytearray(array):
@@ -13,6 +14,12 @@ def print_bytearray(array):
 
 
 class ByteBufferTestCase(TestCase):
+    def test_object(self):
+        a = objectA.ObjectA
+        objectA.ObjectA.write(1)
+        pass
+
+
     def test_bytearray(self):
         buffer = bytearray(10)
         for byte in buffer:
