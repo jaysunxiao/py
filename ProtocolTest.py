@@ -19,6 +19,11 @@ class ByteBufferTestCase(TestCase):
             print(byte)  # 以字节形式输出每个字节的值
         pass
 
+    def test_buffer_raw_int(self):
+        byteBuffer = byte_buffer.ByteBuffer()
+        byteBuffer.writeRawInt(2147483647)
+        self.assertEqual(byteBuffer.readRawInt(), 2147483647)
+
     def test_buffer_int(self):
         byteBuffer = byte_buffer.ByteBuffer()
         byteBuffer.writeInt(2147483647)
@@ -53,10 +58,20 @@ class ByteBufferTestCase(TestCase):
         byteBuffer.writeInt(-9999)
         self.assertEqual(byteBuffer.readInt(), -9999)
 
-
         byteBuffer.writeLong(9999)
         self.assertEqual(byteBuffer.readLong(), 9999)
         byteBuffer.writeLong(-9999)
         self.assertEqual(byteBuffer.readLong(), -9999)
+
+        byteBuffer.writeFloat(99.9)
+        self.assertTrue(abs(byteBuffer.readFloat() - 99.9) < 0.001)
+
+        str = "Hello World!你好"
+        byteBuffer.writeString(str)
+        self.assertEqual(byteBuffer.readString(), str)
+
+        charStr = "A"
+        byteBuffer.writeChar(charStr)
+        self.assertEqual(byteBuffer.readChar(), charStr)
         print("----------------------------------------------------------------")
         print_bytearray(byteBuffer.buffer)

@@ -5,6 +5,7 @@ maxInt = 2147483647
 minInt = -2147483648
 maxLong = 9223372036854775807
 minLong = -9223372036854775808
+empty_str = ""
 
 
 class ByteBuffer():
@@ -52,31 +53,41 @@ class ByteBuffer():
     def writeByte(self, value):
         self.ensureCapacity(1)
         struct.pack_into('>b', self.buffer, self.writeOffset, value)
-        self.writeOffset = self.writeOffset + 1
+        self.writeOffset += 1
 
     def readByte(self):
         value = struct.unpack_from('>b', self.buffer, self.readOffset)[0]
-        self.readOffset = self.readOffset + 1
+        self.readOffset += 1
         return value
 
     def writeUByte(self, value):
         self.ensureCapacity(1)
         struct.pack_into('>B', self.buffer, self.writeOffset, value)
-        self.writeOffset = self.writeOffset + 1
+        self.writeOffset += 1
 
     def readUByte(self):
         value = struct.unpack_from('>B', self.buffer, self.readOffset)[0]
-        self.readOffset = self.readOffset + 1
+        self.readOffset += 1
         return value
 
     def writeShort(self, value):
         self.ensureCapacity(1)
         struct.pack_into('>h', self.buffer, self.writeOffset, value)
-        self.writeOffset = self.writeOffset + 2
+        self.writeOffset += 2
 
     def readShort(self):
         value = struct.unpack_from('>h', self.buffer, self.readOffset)[0]
-        self.readOffset = self.readOffset + 2
+        self.readOffset += 2
+        return value
+
+    def writeRawInt(self, value):
+        self.ensureCapacity(4)
+        struct.pack_into('>i', self.buffer, self.writeOffset, value)
+        self.writeOffset += 4
+
+    def readRawInt(self):
+        value = struct.unpack_from('>i', self.buffer, self.readOffset)[0]
+        self.readOffset += 4
         return value
 
     def writeInt(self, value):
@@ -229,3 +240,53 @@ class ByteBuffer():
                                         b = self.readUByte()
                                         value |= b << 56
         return (value >> 1) ^ -(value & 1)
+
+    def writeFloat(self, value):
+        self.ensureCapacity(4)
+        struct.pack_into('>f', self.buffer, self.writeOffset, value)
+        self.writeOffset += 4
+
+    def readFloat(self):
+        value = struct.unpack_from('>f', self.buffer, self.readOffset)[0]
+        self.readOffset += 4
+        return value
+
+    def writeDouble(self, value):
+        self.ensureCapacity(8)
+        struct.pack_into('>d', self.buffer, self.writeOffset, value)
+        self.writeOffset += 8
+
+    def readDouble(self):
+        value = struct.unpack_from('>d', self.buffer, self.readOffset)[0]
+        self.readOffset += 8
+        return value
+
+    def writeChar(self, value):
+        if len(value) == 0:
+            self.writeInt(0)
+            return
+        self.writeString(value[0])
+
+    def readChar(self):
+        return self.readString()
+
+    def writeString(self, value):
+        if len(value) == 0:
+            self.writeInt(0)
+            return
+        byte_array = bytearray(value, 'utf-8')
+        length = len(byte_array)
+        self.ensureCapacity(5 + length)
+        self.writeInt(length)
+        self.buffer[self.writeOffset:self.writeOffset + length] = byte_array[:]
+        self.writeOffset += length
+
+    def readString(self):
+        length = self.readInt()
+        if (length <= 0):
+            return empty_str
+        byte_array = self.buffer[self.readOffset:self.readOffset + length]
+        # 使用utf-8编码进行解码
+        value = byte_array.decode('utf-8')
+        self.readOffset += length
+        return value
