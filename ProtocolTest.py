@@ -5,6 +5,7 @@ import struct
 
 import buffer.byte_buffer as byte_buffer
 import pyProtocol.objectB as objectB
+import pyProtocol.ProtocolManager as objectB
 
 
 def print_bytearray(array):
@@ -14,7 +15,17 @@ def print_bytearray(array):
 
 
 class ByteBufferTestCase(TestCase):
-    def test_object(self):
+    def test_complex_object(self):
+        # 打开文件并读取内容
+        with open('ComplexObject.bytes', 'rb') as file:
+            content = file.read()
+
+        # 将内容转为bytearray
+        byte_array = bytearray(content)
+
+        # 打印bytearray
+        print(byte_array)
+
         byteBuffer = byte_buffer.ByteBuffer()
         obj = objectB.ObjectB()
         obj.flag = True
@@ -23,6 +34,14 @@ class ByteBufferTestCase(TestCase):
         print(newObj)
         pass
 
+    def test_object(self):
+        byteBuffer = byte_buffer.ByteBuffer()
+        obj = objectB.ObjectB()
+        obj.flag = True
+        objectB.ObjectB.write(byteBuffer, obj)
+        newObj = objectB.ObjectB.read(byteBuffer)
+        print(newObj)
+        pass
 
     def test_bytearray(self):
         buffer = bytearray(10)
