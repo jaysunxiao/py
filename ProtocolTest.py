@@ -4,7 +4,7 @@ from unittest import TestCase
 import struct
 
 import protocol.buffer.byte_buffer as byte_buffer
-import protocol.objectA as objectA
+import protocol.objectB as objectB
 
 
 def print_bytearray(array):
@@ -15,8 +15,12 @@ def print_bytearray(array):
 
 class ByteBufferTestCase(TestCase):
     def test_object(self):
-        a = objectA.ObjectA
-        objectA.ObjectA.write(1)
+        byteBuffer = byte_buffer.ByteBuffer()
+        obj = objectB.ObjectB()
+        obj.flag = True
+        objectB.ObjectB.write(byteBuffer, obj)
+        newObj = objectB.ObjectB.read(byteBuffer)
+        print(newObj)
         pass
 
 
