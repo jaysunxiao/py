@@ -5,7 +5,6 @@ import struct
 
 from pyProtocol import ProtocolManager
 from pyProtocol import ByteBuffer
-import pyProtocol.ObjectB as ObjectB
 
 def print_bytearray(array):
     signed_byte_array = struct.unpack('b' * len(array), array)
@@ -31,15 +30,6 @@ class ByteBufferTestCase(TestCase):
 
         # 打印bytearray
         print(byte_array)
-        pass
-
-    def test_object(self):
-        byteBuffer = ByteBuffer.ByteBuffer()
-        obj = ObjectB.ObjectB()
-        obj.flag = True
-        ObjectB.ObjectB.write(byteBuffer, obj)
-        newObj = ObjectB.ObjectB.read(byteBuffer)
-        print(newObj)
         pass
 
     def test_bytearray(self):
