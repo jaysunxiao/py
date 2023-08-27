@@ -12,7 +12,7 @@ empty_str = ""
 class ByteBuffer():
     writeOffset = 0
     readOffset = 0
-    buffer = bytearray(8)
+    buffer = bytearray(256)
 
     def setWriteOffset(self, writeOffset):
         if writeOffset > len(self.buffer):
@@ -42,6 +42,12 @@ class ByteBuffer():
                 raise ValueError("out of memory error")
             # auto grow capacity
             self.buffer.extend(bytearray(len(self.buffer)))
+
+    def clear(self):
+        self.writeOffset = 0
+        self.readOffset = 0
+        self.buffer = bytearray(256)
+        pass
 
     def writeBool(self, value):
         if value:
@@ -82,7 +88,7 @@ class ByteBuffer():
         return value
 
     def writeShort(self, value):
-        self.ensureCapacity(1)
+        self.ensureCapacity(2)
         struct.pack_into('>h', self.buffer, self.writeOffset, value)
         self.writeOffset += 2
 

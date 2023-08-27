@@ -21,10 +21,13 @@ class ByteBufferTestCase(TestCase):
 
         # 将内容转为bytearray
         byte_array = bytearray(content)
-        byteBuffer = ByteBuffer.ByteBuffer()
-        byteBuffer.writeBytes(byte_array)
+        buffer = ByteBuffer.ByteBuffer()
+        buffer.writeBytes(byte_array)
+        obj = ProtocolManager.read(buffer)
+        buffer.clear()
+        ProtocolManager.write(buffer, obj)
+        newObj = ProtocolManager.read(buffer)
 
-        obj = ProtocolManager.read(byteBuffer)
         # 打印bytearray
         print(byte_array)
         pass
