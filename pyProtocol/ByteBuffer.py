@@ -735,3 +735,173 @@ class ByteBuffer():
                 value = self.readPacket(protocolId)
                 map[key] = value
         return map
+
+    def writeBooleanSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeBool(element)
+        pass
+
+    def readBooleanSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readBool())
+        return value
+
+    def writeByteSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeByte(element)
+        pass
+
+    def readByteSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readByte())
+        return value
+
+    def writeShortSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeShort(element)
+        pass
+
+    def readShortSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readShort())
+        return value
+
+    def writeIntSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeInt(element)
+        pass
+
+    def readIntSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readInt())
+        return value
+
+    def writeLongSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeLong(element)
+        pass
+
+    def readLongSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readLong())
+        return value
+
+    def writeFloatSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeFloat(element)
+        pass
+
+    def readFloatSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readFloat())
+        return value
+
+    def writeDoubleSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeDouble(element)
+        pass
+
+    def readDoubleSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readDouble())
+        return value
+
+    def writeCharSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeChar(element)
+        pass
+
+    def readCharValue(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readChar())
+        return value
+
+    def writeStringSet(self, value):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writeString(element)
+        pass
+
+    def readStringSet(self):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readString())
+        return value
+
+    def writePacketSet(self, value, protocolId):
+        if value is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(value))
+            for element in value:
+                self.writePacket(element, protocolId)
+        pass
+
+    def readPacketSet(self, protocolId):
+        value = set()
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                value.add(self.readPacket(protocolId))
+        return value
