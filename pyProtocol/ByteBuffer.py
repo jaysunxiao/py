@@ -322,7 +322,416 @@ class ByteBuffer():
         protocolRegistration = ProtocolManager.getProtocol(protocolId)
         protocolRegistration.write(self, packet)
 
-
     def readPacket(self, protocolId):
         protocolRegistration = ProtocolManager.getProtocol(protocolId)
         return protocolRegistration.read(self)
+
+    def writeBooleanArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeBool(element)
+        pass
+
+    def readBooleanArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readBool())
+        return array
+
+    def writeByteArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeByte(element)
+        pass
+
+    def readByteArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readByte())
+        return array
+
+    def writeShortArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeShort(element)
+        pass
+
+    def readShortArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readShort())
+        return array
+
+    def writeIntArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeInt(element)
+        pass
+
+    def readIntArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readInt())
+        return array
+
+    def writeLongArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeLong(element)
+        pass
+
+    def readLongArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readLong())
+        return array
+
+    def writeFloatArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeFloat(element)
+        pass
+
+    def readFloatArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readFloat())
+        return array
+
+    def writeDoubleArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeDouble(element)
+        pass
+
+    def readDoubleArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readDouble())
+        return array
+
+    def writeCharArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeChar(element)
+        pass
+
+    def readCharArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readChar())
+        return array
+
+    def writeStringArray(self, array):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writeString(element)
+        pass
+
+    def readStringArray(self):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readString())
+        return array
+
+    def writePacketArray(self, array, protocolId):
+        if array is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(array))
+            for element in array:
+                self.writePacket(element, protocolId)
+        pass
+
+    def readPacketArray(self, protocolId):
+        array = []
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                array.append(self.readPacket(protocolId))
+        return array
+
+    def writeIntIntMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeInt(key)
+                self.writeInt(value)
+        pass
+
+    def readIntIntMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readInt()
+                value = self.readInt()
+                map[key] = value
+        return map
+
+    def writeIntLongMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeInt(key)
+                self.writeLong(value)
+        pass
+
+    def readIntLongMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readInt()
+                value = self.readLong()
+                map[key] = value
+        return map
+
+    def writeIntStringMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeInt(key)
+                self.writeString(value)
+        pass
+
+    def readIntStringMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readInt()
+                value = self.readString()
+                map[key] = value
+        return map
+
+    def writeIntPacketMap(self, map, protocolId):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeInt(key)
+                self.writePacket(value, protocolId)
+        pass
+
+    def readIntPacketMap(self, protocolId):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readInt()
+                value = self.readPacket(protocolId)
+                map[key] = value
+        return map
+
+    def writeLongIntMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeLong(key)
+                self.writeInt(value)
+        pass
+
+    def readLongIntMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readLong()
+                value = self.readInt()
+                map[key] = value
+        return map
+
+    def writeLongLongMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeLong(key)
+                self.writeLong(value)
+        pass
+
+    def readLongLongMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readLong()
+                value = self.readLong()
+                map[key] = value
+        return map
+
+    def writeLongStringMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeLong(key)
+                self.writeString(value)
+        pass
+
+    def readLongStringMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readLong()
+                value = self.readString()
+                map[key] = value
+        return map
+
+    def writeLongPacketMap(self, map, protocolId):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeLong(key)
+                self.writePacket(value, protocolId)
+        pass
+
+    def readLongPacketMap(self, protocolId):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readLong()
+                value = self.readPacket(protocolId)
+                map[key] = value
+        return map
+
+    def writeStringIntMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeString(key)
+                self.writeInt(value)
+        pass
+
+    def readStringIntMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readString()
+                value = self.readInt()
+                map[key] = value
+        return map
+
+    def writeStringLongMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeString(key)
+                self.writeLong(value)
+        pass
+
+    def readStringLongMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readString()
+                value = self.readLong()
+                map[key] = value
+        return map
+
+    def writeStringStringMap(self, map):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeString(key)
+                self.writeString(value)
+        pass
+
+    def readStringStringMap(self):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readString()
+                value = self.readString()
+                map[key] = value
+        return map
+
+    def writeStringPacketMap(self, map, protocolId):
+        if map is None:
+            self.writeInt(0)
+        else:
+            self.writeInt(len(map))
+            for key, value in map.items():
+                self.writeString(key)
+                self.writePacket(value, protocolId)
+        pass
+
+    def readStringPacketMap(self, protocolId):
+        map = {}
+        size = self.readInt()
+        if size > 0:
+            for index in range(size):
+                key = self.readString()
+                value = self.readPacket(protocolId)
+                map[key] = value
+        return map
