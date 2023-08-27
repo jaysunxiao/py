@@ -71,13 +71,13 @@ class ComplexObject:
         if packet.aaa is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.aaa.size())
+            buffer.writeInt(len(packet.aaa))
             for element0 in packet.aaa:
                 buffer.writeByte(element0)
         if packet.aaaa is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.aaaa.size())
+            buffer.writeInt(len(packet.aaaa))
             for element1 in packet.aaaa:
                 buffer.writeByte(element1)
         buffer.writeShort(packet.b)
@@ -85,13 +85,13 @@ class ComplexObject:
         if packet.bbb is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.bbb.size())
+            buffer.writeInt(len(packet.bbb))
             for element2 in packet.bbb:
                 buffer.writeShort(element2)
         if packet.bbbb is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.bbbb.size())
+            buffer.writeInt(len(packet.bbbb))
             for element3 in packet.bbbb:
                 buffer.writeShort(element3)
         buffer.writeInt(packet.c)
@@ -99,13 +99,13 @@ class ComplexObject:
         if packet.ccc is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ccc.size())
+            buffer.writeInt(len(packet.ccc))
             for element4 in packet.ccc:
                 buffer.writeInt(element4)
         if packet.cccc is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.cccc.size())
+            buffer.writeInt(len(packet.cccc))
             for element5 in packet.cccc:
                 buffer.writeInt(element5)
         buffer.writeLong(packet.d)
@@ -113,13 +113,13 @@ class ComplexObject:
         if packet.ddd is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ddd.size())
+            buffer.writeInt(len(packet.ddd))
             for element6 in packet.ddd:
                 buffer.writeLong(element6)
         if packet.dddd is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.dddd.size())
+            buffer.writeInt(len(packet.dddd))
             for element7 in packet.dddd:
                 buffer.writeLong(element7)
         buffer.writeFloat(packet.e)
@@ -127,13 +127,13 @@ class ComplexObject:
         if packet.eee is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.eee.size())
+            buffer.writeInt(len(packet.eee))
             for element8 in packet.eee:
                 buffer.writeFloat(element8)
         if packet.eeee is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.eeee.size())
+            buffer.writeInt(len(packet.eeee))
             for element9 in packet.eeee:
                 buffer.writeFloat(element9)
         buffer.writeDouble(packet.f)
@@ -141,13 +141,13 @@ class ComplexObject:
         if packet.fff is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.fff.size())
+            buffer.writeInt(len(packet.fff))
             for element10 in packet.fff:
                 buffer.writeDouble(element10)
         if packet.ffff is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ffff.size())
+            buffer.writeInt(len(packet.ffff))
             for element11 in packet.ffff:
                 buffer.writeDouble(element11)
         buffer.writeBool(packet.g)
@@ -155,13 +155,13 @@ class ComplexObject:
         if packet.ggg is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ggg.size())
+            buffer.writeInt(len(packet.ggg))
             for element12 in packet.ggg:
                 buffer.writeBool(element12)
         if packet.gggg is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.gggg.size())
+            buffer.writeInt(len(packet.gggg))
             for element13 in packet.gggg:
                 buffer.writeBool(element13)
         buffer.writeChar(packet.h)
@@ -169,77 +169,77 @@ class ComplexObject:
         if packet.hhh is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.hhh.size())
+            buffer.writeInt(len(packet.hhh))
             for element14 in packet.hhh:
                 buffer.writeChar(element14)
         if packet.hhhh is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.hhhh.size())
+            buffer.writeInt(len(packet.hhhh))
             for element15 in packet.hhhh:
                 buffer.writeChar(element15)
         buffer.writeString(packet.jj)
         if packet.jjj is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.jjj.size())
+            buffer.writeInt(len(packet.jjj))
             for element16 in packet.jjj:
                 buffer.writeString(element16)
         buffer.writePacket(packet.kk, 102)
         if packet.kkk is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.kkk.size())
+            buffer.writeInt(len(packet.kkk))
             for element17 in packet.kkk:
                 buffer.writePacket(element17, 102)
         if packet.l is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.l.size())
+            buffer.writeInt(len(packet.l))
             for element18 in packet.l:
                 buffer.writeInt(element18)
         if packet.ll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ll.size())
+            buffer.writeInt(len(packet.ll))
             for element19 in packet.ll:
                 if element19 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element19.size())
+                    buffer.writeInt(len(element19))
                     for element20 in element19:
                         if element20 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element20.size())
+                            buffer.writeInt(len(element20))
                             for element21 in element20:
                                 buffer.writeInt(element21)
         if packet.lll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.lll.size())
+            buffer.writeInt(len(packet.lll))
             for element22 in packet.lll:
                 if element22 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element22.size())
+                    buffer.writeInt(len(element22))
                     for element23 in element22:
                         buffer.writePacket(element23, 102)
         if packet.llll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.llll.size())
+            buffer.writeInt(len(packet.llll))
             for element24 in packet.llll:
                 buffer.writeString(element24)
         if packet.lllll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.lllll.size())
+            buffer.writeInt(len(packet.lllll))
             for element25 in packet.lllll:
                 if element25 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element25.size())
+                    buffer.writeInt(len(element25))
                     for key26 in element25:
                         value27 = element25[key26]
                         buffer.writeInt(key26)
@@ -247,7 +247,7 @@ class ComplexObject:
         if packet.m is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.m.size())
+            buffer.writeInt(len(packet.m))
             for key28 in packet.m:
                 value29 = packet.m[key28]
                 buffer.writeInt(key28)
@@ -255,7 +255,7 @@ class ComplexObject:
         if packet.mm is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.mm.size())
+            buffer.writeInt(len(packet.mm))
             for key30 in packet.mm:
                 value31 = packet.mm[key30]
                 buffer.writeInt(key30)
@@ -263,64 +263,64 @@ class ComplexObject:
         if packet.mmm is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.mmm.size())
+            buffer.writeInt(len(packet.mmm))
             for key32 in packet.mmm:
                 value33 = packet.mmm[key32]
                 buffer.writePacket(key32, 102)
                 if value33 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(value33.size())
+                    buffer.writeInt(len(value33))
                     for element34 in value33:
                         buffer.writeInt(element34)
         if packet.mmmm is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.mmmm.size())
+            buffer.writeInt(len(packet.mmmm))
             for key35 in packet.mmmm:
                 value36 = packet.mmmm[key35]
                 if key35 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(key35.size())
+                    buffer.writeInt(len(key35))
                     for element37 in key35:
                         if element37 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element37.size())
+                            buffer.writeInt(len(element37))
                             for element38 in element37:
                                 buffer.writePacket(element38, 102)
                 if value36 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(value36.size())
+                    buffer.writeInt(len(value36))
                     for element39 in value36:
                         if element39 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element39.size())
+                            buffer.writeInt(len(element39))
                             for element40 in element39:
                                 if element40 is None:
                                     buffer.writeInt(0)
                                 else:
-                                    buffer.writeInt(element40.size())
+                                    buffer.writeInt(len(element40))
                                     for element41 in element40:
                                         buffer.writeInt(element41)
         if packet.mmmmm is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.mmmmm.size())
+            buffer.writeInt(len(packet.mmmmm))
             for key42 in packet.mmmmm:
                 value43 = packet.mmmmm[key42]
                 if key42 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(key42.size())
+                    buffer.writeInt(len(key42))
                     for element44 in key42:
                         if element44 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element44.size())
+                            buffer.writeInt(len(element44))
                             for key45 in element44:
                                 value46 = element44[key45]
                                 buffer.writeInt(key45)
@@ -328,12 +328,12 @@ class ComplexObject:
                 if value43 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(value43.size())
+                    buffer.writeInt(len(value43))
                     for element47 in value43:
                         if element47 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element47.size())
+                            buffer.writeInt(len(element47))
                             for key48 in element47:
                                 value49 = element47[key48]
                                 buffer.writeInt(key48)
@@ -341,51 +341,51 @@ class ComplexObject:
         if packet.s is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.s.size())
+            buffer.writeInt(len(packet.s))
             for element50 in packet.s:
                 buffer.writeInt(element50)
         if packet.ss is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ss.size())
+            buffer.writeInt(len(packet.ss))
             for element51 in packet.ss:
                 if element51 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element51.size())
+                    buffer.writeInt(len(element51))
                     for element52 in element51:
                         if element52 is None:
                             buffer.writeInt(0)
                         else:
-                            buffer.writeInt(element52.size())
+                            buffer.writeInt(len(element52))
                             for element53 in element52:
                                 buffer.writeInt(element53)
         if packet.sss is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.sss.size())
+            buffer.writeInt(len(packet.sss))
             for element54 in packet.sss:
                 if element54 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element54.size())
+                    buffer.writeInt(len(element54))
                     for element55 in element54:
                         buffer.writePacket(element55, 102)
         if packet.ssss is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ssss.size())
+            buffer.writeInt(len(packet.ssss))
             for element56 in packet.ssss:
                 buffer.writeString(element56)
         if packet.sssss is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.sssss.size())
+            buffer.writeInt(len(packet.sssss))
             for element57 in packet.sssss:
                 if element57 is None:
                     buffer.writeInt(0)
                 else:
-                    buffer.writeInt(element57.size())
+                    buffer.writeInt(len(element57))
                     for key58 in element57:
                         value59 = element57[key58]
                         buffer.writeInt(key58)

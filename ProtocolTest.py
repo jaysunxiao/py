@@ -27,6 +27,7 @@ class ByteBufferTestCase(TestCase):
         buffer.clear()
         ProtocolManager.write(buffer, obj)
         newObj = ProtocolManager.read(buffer)
+        bytes = buffer.toBytes()
 
         # 打印bytearray
         print(byte_array)

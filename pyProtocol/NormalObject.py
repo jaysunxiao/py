@@ -31,7 +31,7 @@ class NormalObject:
         if packet.aaa is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.aaa.size())
+            buffer.writeInt(len(packet.aaa))
             for element0 in packet.aaa:
                 buffer.writeByte(element0)
         buffer.writeShort(packet.b)
@@ -45,31 +45,31 @@ class NormalObject:
         if packet.l is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.l.size())
+            buffer.writeInt(len(packet.l))
             for element1 in packet.l:
                 buffer.writeInt(element1)
         if packet.ll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ll.size())
+            buffer.writeInt(len(packet.ll))
             for element2 in packet.ll:
                 buffer.writeLong(element2)
         if packet.lll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.lll.size())
+            buffer.writeInt(len(packet.lll))
             for element3 in packet.lll:
                 buffer.writePacket(element3, 102)
         if packet.llll is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.llll.size())
+            buffer.writeInt(len(packet.llll))
             for element4 in packet.llll:
                 buffer.writeString(element4)
         if packet.m is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.m.size())
+            buffer.writeInt(len(packet.m))
             for key5 in packet.m:
                 value6 = packet.m[key5]
                 buffer.writeInt(key5)
@@ -77,7 +77,7 @@ class NormalObject:
         if packet.mm is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.mm.size())
+            buffer.writeInt(len(packet.mm))
             for key7 in packet.mm:
                 value8 = packet.mm[key7]
                 buffer.writeInt(key7)
@@ -85,13 +85,13 @@ class NormalObject:
         if packet.s is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.s.size())
+            buffer.writeInt(len(packet.s))
             for element9 in packet.s:
                 buffer.writeInt(element9)
         if packet.ssss is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.ssss.size())
+            buffer.writeInt(len(packet.ssss))
             for element10 in packet.ssss:
                 buffer.writeString(element10)
         pass

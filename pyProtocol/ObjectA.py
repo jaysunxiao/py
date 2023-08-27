@@ -16,7 +16,7 @@ class ObjectA:
         if packet.m is None:
             buffer.writeInt(0)
         else:
-            buffer.writeInt(packet.m.size())
+            buffer.writeInt(len(packet.m))
             for key0 in packet.m:
                 value1 = packet.m[key0]
                 buffer.writeInt(key0)

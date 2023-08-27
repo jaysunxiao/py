@@ -49,6 +49,9 @@ class ByteBuffer():
         self.buffer = bytearray(256)
         pass
 
+    def toBytes(self):
+        return self.buffer[0:self.writeOffset]
+
     def writeBool(self, value):
         if value:
             self.writeByte(1)
