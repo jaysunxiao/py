@@ -4,6 +4,8 @@
 
 - source ~/.bashrc
 
+- https://blog.csdn.net/wxuzero/article/details/127958224
+
 ### Windows安装miniconda安装
 
 - miniconda直接从清华大学的镜像下载
