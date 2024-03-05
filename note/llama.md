@@ -20,6 +20,8 @@ tail -f /usr/local/homegpu/spring.log
 less /usr/local/homegpu/spring.log
 
 sh /deployhomegpu.sh stop homegpu
+
+less /usr/local/homegpu/spring.log | grep "java.lang.RuntimeException: java.io.InterruptedIOException: timeout" | wc -l
 ```
 
 
