@@ -50,3 +50,8 @@ curl http://localhost:19327/v1/completions \
     "prompt": "告诉我中国的首都在哪里"
   }'
 ```
+
+```
+conda activate llama
+less /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.out
+```
