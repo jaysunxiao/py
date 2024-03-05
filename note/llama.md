@@ -1,15 +1,18 @@
 ###
 
+
 - llama
 ```
 tail -f /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.log
 
-less /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.log
+less /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.out
 ```
 
 
 - homegpu
 ```
+curl -O https://jiucai-fun.oss-cn-shanghai.aliyuncs.com/homegpu-1.0.jar
+
 sh /deployhomegpu.sh stopUpdateStart /usr/local/homegpu/homegpu-1.0.jar
 
 tail -f /usr/local/homegpu/spring.log
