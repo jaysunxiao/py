@@ -3,7 +3,7 @@
 
 - llama
 ```
-tail -f /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.log
+tail -f /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.out
 
 less /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.out
 ```
@@ -44,7 +44,8 @@ sh /deployhomegpu.sh stop homev2ray
 pip uninstall pydantic
 pip install pydantic==1.10.9 --proxy=http://127.0.0.1:10809
 ```
-
+- conda activate llama
+- cd /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/
 - nohup python scripts/openai_server_demo/openai_api_server.py --base_model /home/jay/github/chinese-alpaca-2-7b-hf --gpus 0 &
 
 
