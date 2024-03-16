@@ -61,3 +61,11 @@ curl http://localhost:19327/v1/completions \
 conda activate llama
 less /home/jay/github/llama2/Chinese-LLaMA-Alpaca-2/nohup.out
 ```
+
+### llama量化安装
+
+- 直接运行
+```
+conda activate llama
+nohup /home/jay/github/llama.cpp/server -m /home/jay/github/mymodel/chinese-alpaca-2-13b-hf/ggml-model-q4_0.gguf -c 4096 -ngl 999 --host 0.0.0.0 &
+```
