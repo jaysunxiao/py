@@ -1,3 +1,5 @@
 requests
 tqdm
 flask
+
+# 安装pytorch https://pytorch.org/
