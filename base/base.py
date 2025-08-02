@@ -116,24 +116,37 @@ print("循环-------------------------------------------------------------------
 for ele in l:
     print(ele)
 
+print("range test:")
 for i in range(3):
     print(i)
 
 # for 循环也可以迭代 dict （字典）
+print("dict test:")
 dict1 = {'name': '两点水', 'age': '23', 'sex': '男'}
 for key in dict1:  # 迭代 dict 中的 key
     print(key, end=' ')
 
-print('\n')
-
+print("dict values test:")
 for value in dict1.values():  # 迭代 dict 中的 value
     print(value, end=' ')
 
+print("dict items test:")
 for key, value in dict1.items():  # 迭代 dict 中的 value
     print(key + "->" + value)
 
+print("enumerate test:")
 for i, item in enumerate(dict1.keys()): # i代表索引
     print(i, item)
+
+# 等价于：
+print("iterator test:")
+iterator = iter(dict1.keys())
+while True:
+    try:
+        item = next(iterator)
+        print(item)
+    except StopIteration:
+        break
 #####################################################################################################################
 print("函数---------------------------------------------------------------------------------------------------------\n")
 
