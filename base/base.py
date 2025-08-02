@@ -132,7 +132,7 @@ for value in dict1.values():  # 迭代 dict 中的 value
 for key, value in dict1.items():  # 迭代 dict 中的 value
     print(key + "->" + value)
 
-for i, item in enumerate(dict1.keys()):
+for i, item in enumerate(dict1.keys()): # i代表索引
     print(i, item)
 #####################################################################################################################
 print("函数---------------------------------------------------------------------------------------------------------\n")
