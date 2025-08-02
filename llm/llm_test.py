@@ -25,7 +25,7 @@ class PositionalEncoding(nn.Module):
         return x
 
 
-# 多头注意力机制
+# 多头注意力机制，允许模型同时关注序列的不同部分
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model, num_heads):
         super().__init__()
@@ -70,7 +70,7 @@ class MultiHeadAttention(nn.Module):
         return self.w_o(output), attn
 
 
-# 前馈网络
+# 前馈神经网络，处理注意力机制输出的特征
 class FeedForward(nn.Module):
     def __init__(self, d_model, hidden_dim, dropout=0.1):
         super().__init__()
@@ -87,7 +87,7 @@ class FeedForward(nn.Module):
         return x
 
 
-# Transformer解码器层
+# Transformer 解码器层，包含自注意力和前馈网络
 class DecoderLayer(nn.Module):
     def __init__(self, d_model, num_heads, hidden_dim, dropout=0.1):
         super().__init__()
@@ -116,7 +116,7 @@ class DecoderLayer(nn.Module):
         return x, attn_weights
 
 
-# 简化的Transformer语言模型
+# 简化的Transformer语言模型，整的语言模型，使用多个解码器层堆叠
 class SimpleTransformerLM(nn.Module):
     def __init__(self, vocab_size, d_model=128, num_heads=4,
                  num_layers=2, hidden_dim=256, dropout=0.1):
@@ -126,7 +126,7 @@ class SimpleTransformerLM(nn.Module):
         # 词嵌入层
         self.embedding = nn.Embedding(vocab_size, d_model)
 
-        # 位置编码
+        # 位置编码,为输入序列添加位置信息，让模型理解词语的顺序关系
         self.pos_encoder = PositionalEncoding(d_model)
 
         # 解码器层
@@ -167,7 +167,7 @@ def generate_causal_mask(seq_len):
     return mask
 
 
-# 文本生成函数
+# 文本生成函数，基于已训练的模型生成新文本
 def generate_text(model, tokenizer, start_text, max_length=50, temperature=0.7):
     model.eval()
     device = next(model.parameters()).device
@@ -207,7 +207,7 @@ def generate_text(model, tokenizer, start_text, max_length=50, temperature=0.7):
     return generated_text
 
 
-# 简单的Tokenizer类
+# 简单的Tokenizer类，简单的分词器，将文本转换为模型可处理的数字 ID
 class SimpleTokenizer:
     def __init__(self, text=None):
         self.word2idx = {'<pad>': 0, '<unk>': 1, '<sos>': 2, '<eos>': 3}
@@ -253,7 +253,7 @@ class SimpleTokenizer:
         return self.word2idx['<eos>']
 
 
-# 训练函数
+# 模型训练函数，实现了基本的训练循环
 def train_model(model, tokenizer, train_data, epochs=10, batch_size=4, lr=1e-3):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
