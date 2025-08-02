@@ -24,3 +24,16 @@ y = torch.tensor([[5, 6], [7, 8]])
 print(x + y)  # 加法
 print(x * y)  # 元素乘法
 print(torch.matmul(x, y))  # 矩阵乘法（等价于 x @ y）
+
+
+
+input_ids = torch.tensor([2, 3, 5, 1])#要加入2,3,5,1的字符
+vocab_size = 6#嵌入层需要支持的唯一标记的总数
+output_dim = 3#嵌入向量的维度
+
+torch.manual_seed(123)#用于设置随机数生成器的种子，确保结果的可复现性
+embedding_layer = torch.nn.Embedding(vocab_size, output_dim)#每行表示一个标记的嵌入向量。
+print(embedding_layer.weight)
+print(embedding_layer(torch.tensor([3])))
+print(input_ids)
+print(embedding_layer(input_ids))
