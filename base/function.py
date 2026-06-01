@@ -65,6 +65,9 @@ print(get_phones())
 
 
 # 匿名函数
-sum: Callable[[int, int], int] = lambda num1, num2: num1 + num2
-
-print(sum(1, 2))
+nums: list[int] = [3, 2, 1]
+nums.sort(key=lambda it: it)
+print(nums)
+result = map(lambda x: x * 2, nums)
+result1 = filter(lambda x: x > 0, nums)
+result2 = filter(lambda x: x > 0, nums)
