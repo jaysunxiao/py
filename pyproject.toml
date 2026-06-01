@@ -1,0 +1,12 @@
+[project]
+name = "py"
+version = "0.1.0"
+description = "python的学习工程"
+requires-python = ">=3.16"
+
+dependencies = [
+    "requests>=2.26.0",
+    "tqdm>=4.67.3",
+    "flask>=3.1.3"
+]
+
