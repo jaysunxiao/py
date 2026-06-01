@@ -1,7 +1,7 @@
 import requests
 
 # 发送请求
-response = requests.get('https://www.baidu.com')
+response = requests.get("https://www.baidu.com")
 
 # 返回网页内容
 print(response.status_code)  # 获取响应状态码

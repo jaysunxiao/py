@@ -11,3 +11,6 @@ python for ai
 ## ruff 代码格式检查工具
 
 - ruff check .
+- ruff check --fix .
+- ruff format .
+- ruff check --fix . && ruff format .

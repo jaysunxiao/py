@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 #####################################################################################################################
 
-print("类定义-----------------------------------------------------------------------------------------------------\n")
+print(
+    "类定义-----------------------------------------------------------------------------------------------------\n"
+)
 
 
 class ClassA(object):
@@ -19,7 +21,7 @@ class ClassA(object):
     # static类方法
     @classmethod
     def fun1(cls):
-        print('static filed VERSION:[{}]'.format(cls.VERSION))
+        print("static filed VERSION:[{}]".format(cls.VERSION))
 
     def info(self):
         print("info:{} - {}".format(self.name, self.age))
@@ -30,24 +32,25 @@ classAObject = ClassA("李四", 200)
 classAObject.info()
 
 
-
 @dataclass
 class User(object):
     name: str
     age: int
-    sex: str = '男'
+    sex: str = "男"
     pass
 
 
-u = User('两点水', 18, '女')
+u = User("两点水", 18, "女")
 print(u)
+
 
 @dataclass
 class User1(User):
     weight: float = 11.1
     pass
 
-u1 = User1('两点水', 18, '女', 22.2)
+
+u1 = User1("两点水", 18, "女", 22.2)
 print(u1)
 print(isinstance(u1, User))
 

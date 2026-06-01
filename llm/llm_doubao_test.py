@@ -12,16 +12,18 @@ class PositionalEncoding(nn.Module):
 
         # 计算位置编码
         position = torch.arange(max_len).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
+        div_term = torch.exp(
+            torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model)
+        )
         pe = torch.zeros(max_len, 1, d_model)
         pe[:, 0, 0::2] = torch.sin(position * div_term)
         pe[:, 0, 1::2] = torch.cos(position * div_term)
 
-        self.register_buffer('pe', pe)  # 不参与训练的参数
+        self.register_buffer("pe", pe)  # 不参与训练的参数
 
     def forward(self, x):
         # x: (seq_len, batch_size, d_model)
-        x = x + self.pe[:x.size(0)]
+        x = x + self.pe[: x.size(0)]
         return x
 
 
@@ -118,8 +120,15 @@ class DecoderLayer(nn.Module):
 
 # 简化的Transformer语言模型，整的语言模型，使用多个解码器层堆叠
 class SimpleTransformerLM(nn.Module):
-    def __init__(self, vocab_size, d_model=128, num_heads=4,
-                 num_layers=2, hidden_dim=256, dropout=0.1):
+    def __init__(
+        self,
+        vocab_size,
+        d_model=128,
+        num_heads=4,
+        num_layers=2,
+        hidden_dim=256,
+        dropout=0.1,
+    ):
         super().__init__()
         self.d_model = d_model
 
@@ -130,10 +139,12 @@ class SimpleTransformerLM(nn.Module):
         self.pos_encoder = PositionalEncoding(d_model)
 
         # 解码器层
-        self.decoder_layers = nn.ModuleList([
-            DecoderLayer(d_model, num_heads, hidden_dim, dropout)
-            for _ in range(num_layers)
-        ])
+        self.decoder_layers = nn.ModuleList(
+            [
+                DecoderLayer(d_model, num_heads, hidden_dim, dropout)
+                for _ in range(num_layers)
+            ]
+        )
 
         # 输出层，预测下一个词
         self.fc_out = nn.Linear(d_model, vocab_size)
@@ -163,7 +174,7 @@ class SimpleTransformerLM(nn.Module):
 # 生成因果掩码（防止模型看到未来的词）
 def generate_causal_mask(seq_len):
     mask = (torch.triu(torch.ones(seq_len, seq_len)) == 1).transpose(0, 1)
-    mask = mask.float().masked_fill(mask == 0, float('-inf'))
+    mask = mask.float().masked_fill(mask == 0, float("-inf"))
     return mask
 
 
@@ -210,7 +221,7 @@ def generate_text(model, tokenizer, start_text, max_length=50, temperature=0.7):
 # 简单的Tokenizer类，简单的分词器，将文本转换为模型可处理的数字 ID
 class SimpleTokenizer:
     def __init__(self, text=None):
-        self.word2idx = {'<pad>': 0, '<unk>': 1, '<sos>': 2, '<eos>': 3}
+        self.word2idx = {"<pad>": 0, "<unk>": 1, "<sos>": 2, "<eos>": 3}
         self.idx2word = {v: k for k, v in self.word2idx.items()}
         self.vocab_size = 4
 
@@ -229,38 +240,40 @@ class SimpleTokenizer:
     def encode(self, text):
         words = text.split()
         # 添加开始标记
-        encoded = [self.word2idx['<sos>']]
+        encoded = [self.word2idx["<sos>"]]
         for word in words:
-            encoded.append(self.word2idx.get(word, self.word2idx['<unk>']))
+            encoded.append(self.word2idx.get(word, self.word2idx["<unk>"]))
         # 添加结束标记
-        encoded.append(self.word2idx['<eos>'])
+        encoded.append(self.word2idx["<eos>"])
         return torch.tensor(encoded, dtype=torch.long)
 
     def decode(self, ids):
         words = []
         for idx in ids:
-            if idx == self.word2idx['<eos>']:
+            if idx == self.word2idx["<eos>"]:
                 break
-            words.append(self.idx2word.get(idx, '<unk>'))
-        return ' '.join(words)
+            words.append(self.idx2word.get(idx, "<unk>"))
+        return " ".join(words)
 
     @property
     def pad_token_id(self):
-        return self.word2idx['<pad>']
+        return self.word2idx["<pad>"]
 
     @property
     def eos_token_id(self):
-        return self.word2idx['<eos>']
+        return self.word2idx["<eos>"]
 
 
 # 模型训练函数，实现了基本的训练循环
 def train_model(model, tokenizer, train_data, epochs=10, batch_size=4, lr=1e-3):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
     # 准备数据加载器
     dataset = torch.utils.data.TensorDataset(train_data)
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    dataloader = torch.utils.data.DataLoader(
+        dataset, batch_size=batch_size, shuffle=True
+    )
 
     # 损失函数和优化器
     criterion = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
@@ -294,7 +307,7 @@ def train_model(model, tokenizer, train_data, epochs=10, batch_size=4, lr=1e-3):
             optimizer.step()
 
         avg_loss = total_loss / len(dataloader)
-        print(f'Epoch {epoch + 1}/{epochs}, Loss: {avg_loss:.4f}')
+        print(f"Epoch {epoch + 1}/{epochs}, Loss: {avg_loss:.4f}")
 
         # 每个epoch结束后生成一些文本作为示例
         if (epoch + 1) % 2 == 0:
@@ -320,8 +333,10 @@ if __name__ == "__main__":
     print(f"Vocabulary size: {tokenizer.vocab_size}")
 
     # 准备训练数据
-    sentences = [s.strip() for s in sample_text.split('.') if s.strip()]
-    max_len = max(len(sentence.split()) + 2 for sentence in sentences)  # +2 for sos and eos
+    sentences = [s.strip() for s in sample_text.split(".") if s.strip()]
+    max_len = max(
+        len(sentence.split()) + 2 for sentence in sentences
+    )  # +2 for sos and eos
 
     # 对句子进行编码和填充
     encoded_sentences = []
@@ -330,7 +345,12 @@ if __name__ == "__main__":
         # 填充到最大长度
         if len(encoded) < max_len:
             pad_length = max_len - len(encoded)
-            encoded = torch.cat([encoded, torch.full((pad_length,), tokenizer.pad_token_id, dtype=torch.long)])
+            encoded = torch.cat(
+                [
+                    encoded,
+                    torch.full((pad_length,), tokenizer.pad_token_id, dtype=torch.long),
+                ]
+            )
         encoded_sentences.append(encoded)
 
     train_data = torch.stack(encoded_sentences)
@@ -341,7 +361,7 @@ if __name__ == "__main__":
         d_model=64,
         num_heads=2,
         num_layers=2,
-        hidden_dim=128
+        hidden_dim=128,
     )
 
     # 训练模型
