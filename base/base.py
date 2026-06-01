@@ -4,7 +4,7 @@ print('Hello Python')
 print("数据类型-----------------------------------------------------------------------------------------------------\n")
 
 a = "aa"
-bb = True
+bb: bool = True
 b = 1
 c = 1.1
 d = 9223372036854775807
@@ -47,8 +47,9 @@ print(l[0:2])
 # 使用 del 语句来删除列表的的元素
 del l[3]
 print(l)
-print("--------------------------------------------------------------------------------------------------------\n")
-# tuple 和 List 非常类似，但是 tuple 一旦初始化就不能修改。 也就是说元组（tuple）是不可变的
+
+# tuple 和 List 非常类似，但是 tuple 一旦初始化就不能修改。 也就是说元组（tuple）是不可变的。类似于java的immutable list
+tuple1=('两点水','twowter','liangdianshui',123,456)
 
 list1 = list(range(1, 31))
 print(list1)
@@ -147,73 +148,4 @@ while True:
         print(item)
     except StopIteration:
         break
-#####################################################################################################################
-print("函数---------------------------------------------------------------------------------------------------------\n")
 
-
-# 返回一个值
-def sum(num1, num2):
-    return num1 + num2
-
-
-print(sum(5, 6))
-
-
-# 返回两个值
-def division(num1, num2):
-    a = num1 % num2
-    b = (num1 - a) / num2
-    return b, a
-
-
-num1, num2 = division(9, 4)
-tuple1 = division(9, 4)
-
-print(num1, num2)
-
-
-# 不定长参数
-def print_user_info(name, age, sex='男', *hobby):
-    # 打印用户信息
-    print('昵称：{}'.format(name), end=' ')
-    print('年龄：{}'.format(age), end=' ')
-    print('性别：{}'.format(sex), end=' ')
-    print('爱好：{}'.format(hobby))
-    return
-
-
-print_user_info('两点水', 18, '女', '打篮球', '打羽毛球', '跑步')
-
-
-# 只接受关键字参数
-def print_user_info(name, age, sex='男'):
-    # 打印用户信息
-    print('昵称：{}'.format(name), end=' ')
-    print('年龄：{}'.format(age), end=' ')
-    print('性别：{}'.format(sex))
-    return
-
-
-print_user_info(name='两点水', age=18, sex='女')
-
-#####################################################################################################################
-print("类定义-----------------------------------------------------------------------------------------------------\n")
-
-
-class ClassA:
-    var1 = 100
-    var2 = 0.01
-    var3 = '两点水'
-
-    def __init__(self):
-        print("init method")
-        pass
-
-    # static类方法
-    @classmethod
-    def fun1(self):
-        print('我是 fun1')
-
-
-ClassA.fun1()
-classAObject = ClassA()
