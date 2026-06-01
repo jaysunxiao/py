@@ -14,3 +14,7 @@ python for ai
 - ruff check --fix .
 - ruff format .
 - ruff check --fix . && ruff format .
+
+## pytest
+
+- pytest 跑所有测试

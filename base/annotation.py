@@ -1,4 +1,5 @@
 import time
+import logging
 
 
 def my_decorator(func):
@@ -37,3 +38,14 @@ def punch(name, department):
 
 
 punch("两点水", "做鸭事业部")
+
+# logging 默认的级别是 WARNING，比它低的 INFO 和 DEBUG 直接被丢掉了。
+# filename：写到文件，比如 'app.log'
+# filemode：写文件的模式，'a' 追加（默认），'w' 覆盖
+# encoding：文件编码，强烈建议加 encoding='utf-8'，不然 Windows 上中文很容易挂
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logging.info("两点水开始打卡了")
