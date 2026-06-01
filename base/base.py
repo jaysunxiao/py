@@ -61,7 +61,8 @@ list1 = [x * x for x in range(1, 11) if x % 2 == 0]
 print(list1)
 
 list2 = [(x + 1, y + 1) for x in range(3) for y in range(5)]
-print(list2)
+for num1 in reversed(list2) :
+    print ( num1 , end = ' ' )
 
 names = ['laingdianshui', 'twowater', '两点水']
 ages = [18, 19, 20]
