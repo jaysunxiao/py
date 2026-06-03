@@ -23,7 +23,7 @@ class Agent(ABC):
         self._history: list[Message] = []
     
     @abstractmethod
-    def run(self, input_text: str, **kwargs) -> str:
+    def run(self, input_text: str) -> str:
         """运行Agent"""
         pass
     
@@ -40,7 +40,7 @@ class Agent(ABC):
         return self._history.copy()
     
     def __str__(self) -> str:
-        return f"Agent(name={self.name}, provider={self.llm.provider})"
+        return f"Agent(name={self.name}, model={self.llm.model})"
     
     def __repr__(self) -> str:
         return self.__str__()

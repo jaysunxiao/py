@@ -299,7 +299,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
         return trimmed.strip()
 
-    def stream_run(self, input_text: str, max_tool_iterations: int = 3, **kwargs: Any) -> Iterator[str]:  # type: ignore[override]
+    def stream_run(self, input_text: str, max_tool_iterations: int = 3) -> Iterator[str]:  # type: ignore[override]
         """Stream assistant output while supporting tool calls mid-generation.
 
         流式运行智能体，支持在生成过程中调用工具。
@@ -307,7 +307,6 @@ class ToolAwareSimpleAgent(SimpleAgent):
         Args:
             input_text: 用户输入文本
             max_tool_iterations: 最大工具调用迭代次数
-            **kwargs: 传递给 LLM 的额外参数
 
         Yields:
             生成的文本片段
@@ -358,7 +357,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
                     tool_call_texts.append(residual[: end + 1])
                     residual = residual[end + 1 :]
 
-            for chunk in self.llm.stream_invoke(messages, **kwargs):
+            for chunk in self.llm.stream_invoke(messages):
                 if not chunk:
                     continue
 
@@ -411,7 +410,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
             break
 
         if current_iteration >= max_tool_iterations and not final_response_text:
-            fallback_response = self.llm.invoke(messages, **kwargs)
+            fallback_response = self.llm.invoke(messages)
             final_segments.append(fallback_response)
             final_response_text = fallback_response
             yield fallback_response

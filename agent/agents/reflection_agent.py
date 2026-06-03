@@ -114,13 +114,12 @@ class ReflectionAgent(Agent):
         # 设置提示词模板：用户自定义优先，否则使用默认模板
         self.prompts = custom_prompts if custom_prompts else DEFAULT_PROMPTS
     
-    def run(self, input_text: str, **kwargs) -> str:
+    def run(self, input_text: str) -> str:
         """
         运行Reflection Agent
 
         Args:
             input_text: 任务描述
-            **kwargs: 其他参数
 
         Returns:
             最终优化后的结果
@@ -133,7 +132,7 @@ class ReflectionAgent(Agent):
         # 1. 初始执行
         print("\n--- 正在进行初始尝试 ---")
         initial_prompt = self.prompts["initial"].format(task=input_text)
-        initial_result = self._get_llm_response(initial_prompt, **kwargs)
+        initial_result = self._get_llm_response(initial_prompt)
         self.memory.add_record("execution", initial_result)
 
         # 2. 迭代循环：反思与优化
@@ -147,7 +146,7 @@ class ReflectionAgent(Agent):
                 task=input_text,
                 content=last_result
             )
-            feedback = self._get_llm_response(reflect_prompt, **kwargs)
+            feedback = self._get_llm_response(reflect_prompt)
             self.memory.add_record("reflection", feedback)
 
             # b. 检查是否需要停止
@@ -162,7 +161,7 @@ class ReflectionAgent(Agent):
                 last_attempt=last_result,
                 feedback=feedback
             )
-            refined_result = self._get_llm_response(refine_prompt, **kwargs)
+            refined_result = self._get_llm_response(refine_prompt)
             self.memory.add_record("execution", refined_result)
 
         final_result = self.memory.get_last_execution()
@@ -174,7 +173,7 @@ class ReflectionAgent(Agent):
 
         return final_result
     
-    def _get_llm_response(self, prompt: str, **kwargs) -> str:
+    def _get_llm_response(self, prompt: str) -> str:
         """调用LLM并获取完整响应"""
         messages = [{"role": "user", "content": prompt}]
-        return self.llm.invoke(messages, **kwargs) or ""
+        return self.llm.invoke(messages) or ""

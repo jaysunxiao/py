@@ -116,13 +116,12 @@ class ReActAgent(Agent):
         else:
             self.tool_registry.register_tool(tool)
 
-    def run(self, input_text: str, **kwargs) -> str:
+    def run(self, input_text: str) -> str:
         """
         运行ReAct Agent
         
         Args:
             input_text: 用户问题
-            **kwargs: 其他参数
             
         Returns:
             最终答案
@@ -147,7 +146,7 @@ class ReActAgent(Agent):
             
             # 调用LLM
             messages = [{"role": "user", "content": prompt}]
-            response_text = self.llm.invoke(messages, **kwargs)
+            response_text = self.llm.invoke(messages)
             
             if not response_text:
                 print("❌ 错误：LLM未能返回有效响应。")

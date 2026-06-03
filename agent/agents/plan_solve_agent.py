@@ -49,13 +49,12 @@ class Planner:
         self.llm_client = llm_client
         self.prompt_template = prompt_template if prompt_template else DEFAULT_PLANNER_PROMPT
 
-    def plan(self, question: str, **kwargs) -> List[str]:
+    def plan(self, question: str) -> List[str]:
         """
         生成执行计划
 
         Args:
             question: 要解决的问题
-            **kwargs: LLM调用参数
 
         Returns:
             步骤列表
@@ -64,7 +63,7 @@ class Planner:
         messages = [{"role": "user", "content": prompt}]
 
         print("--- 正在生成计划 ---")
-        response_text = self.llm_client.invoke(messages, **kwargs) or ""
+        response_text = self.llm_client.invoke(messages) or ""
         print(f"✅ 计划已生成:\n{response_text}")
 
         try:
@@ -87,14 +86,13 @@ class Executor:
         self.llm_client = llm_client
         self.prompt_template = prompt_template if prompt_template else DEFAULT_EXECUTOR_PROMPT
 
-    def execute(self, question: str, plan: List[str], **kwargs) -> str:
+    def execute(self, question: str, plan: List[str]) -> str:
         """
         按计划执行任务
 
         Args:
             question: 原始问题
             plan: 执行计划
-            **kwargs: LLM调用参数
 
         Returns:
             最终答案
@@ -113,7 +111,7 @@ class Executor:
             )
             messages = [{"role": "user", "content": prompt}]
 
-            response_text = self.llm_client.invoke(messages, **kwargs) or ""
+            response_text = self.llm_client.invoke(messages) or ""
 
             history += f"步骤 {i}: {step}\n结果: {response_text}\n\n"
             final_answer = response_text
@@ -165,13 +163,12 @@ class PlanAndSolveAgent(Agent):
         self.planner = Planner(self.llm, planner_prompt)
         self.executor = Executor(self.llm, executor_prompt)
     
-    def run(self, input_text: str, **kwargs) -> str:
+    def run(self, input_text: str) -> str:
         """
         运行Plan and Solve Agent
         
         Args:
             input_text: 要解决的问题
-            **kwargs: 其他参数
             
         Returns:
             最终答案
@@ -179,7 +176,7 @@ class PlanAndSolveAgent(Agent):
         print(f"\n🤖 {self.name} 开始处理问题: {input_text}")
         
         # 1. 生成计划
-        plan = self.planner.plan(input_text, **kwargs)
+        plan = self.planner.plan(input_text)
         if not plan:
             final_answer = "无法生成有效的行动计划，任务终止。"
             print(f"\n--- 任务终止 ---\n{final_answer}")
@@ -191,7 +188,7 @@ class PlanAndSolveAgent(Agent):
             return final_answer
         
         # 2. 执行计划
-        final_answer = self.executor.execute(input_text, plan, **kwargs)
+        final_answer = self.executor.execute(input_text, plan)
         print(f"\n--- 任务完成 ---\n最终答案: {final_answer}")
         
         # 保存到历史记录

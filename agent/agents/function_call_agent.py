@@ -223,24 +223,28 @@ class FunctionCallAgent(Agent):
 
         return f"❌ 错误：未找到工具 '{tool_name}'"
 
-    def _invoke_with_tools(self, messages: list[dict[str, Any]], tools: list[dict[str, Any]], tool_choice: Union[str, dict], **kwargs):
+    def _invoke_with_tools(
+        self,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
+        tool_choice: Union[str, dict],
+    ):
         """调用底层OpenAI客户端执行函数调用"""
         client = getattr(self.llm, "_client", None)
         if client is None:
             raise RuntimeError("HelloAgentsLLM 未正确初始化客户端，无法执行函数调用。")
 
-        client_kwargs = dict(kwargs)
-        client_kwargs.setdefault("temperature", self.llm.temperature)
+        create_kwargs: dict[str, Any] = {
+            "model": self.llm.model,
+            "messages": messages,
+            "tools": tools,
+            "tool_choice": tool_choice,
+            "temperature": self.llm.temperature,
+        }
         if self.llm.max_tokens is not None:
-            client_kwargs.setdefault("max_tokens", self.llm.max_tokens)
+            create_kwargs["max_tokens"] = self.llm.max_tokens
 
-        return client.chat.completions.create(
-            model=self.llm.model,
-            messages=messages,
-            tools=tools,
-            tool_choice=tool_choice,
-            **client_kwargs,
-        )
+        return client.chat.completions.create(**create_kwargs)
 
     def run(
         self,
@@ -248,7 +252,6 @@ class FunctionCallAgent(Agent):
         *,
         max_tool_iterations: Optional[int] = None,
         tool_choice: Optional[Union[str, dict]] = None,
-        **kwargs,
     ) -> str:
         """
         执行函数调用范式的对话流程
@@ -264,7 +267,7 @@ class FunctionCallAgent(Agent):
 
         tool_schemas = self._build_tool_schemas()
         if not tool_schemas:
-            response_text = self.llm.invoke(messages, **kwargs)
+            response_text = self.llm.invoke(messages)
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(response_text, "assistant"))
             return response_text
@@ -280,7 +283,6 @@ class FunctionCallAgent(Agent):
                 messages,
                 tools=tool_schemas,
                 tool_choice=effective_tool_choice,
-                **kwargs,
             )
 
             choice = response.choices[0]
@@ -330,7 +332,6 @@ class FunctionCallAgent(Agent):
                 messages,
                 tools=tool_schemas,
                 tool_choice="none",
-                **kwargs,
             )
             final_response = self._extract_message_content(final_choice.choices[0].message.content)
             messages.append({"role": "assistant", "content": final_response})
@@ -373,7 +374,7 @@ class FunctionCallAgent(Agent):
     def has_tools(self) -> bool:
         return self.enable_tool_calling and self.tool_registry is not None
 
-    def stream_run(self, input_text: str, **kwargs) -> Iterator[str]:
+    def stream_run(self, input_text: str) -> Iterator[str]:
         """流式调用暂未实现，直接回退到一次性调用"""
-        result = self.run(input_text, **kwargs)
+        result = self.run(input_text)
         yield result

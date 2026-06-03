@@ -243,14 +243,13 @@ class SimpleAgent(Agent):
         else:
             return {'input': parameters}
 
-    def run(self, input_text: str, max_tool_iterations: int = 3, **kwargs) -> str:
+    def run(self, input_text: str, max_tool_iterations: int = 3) -> str:
         """
         运行SimpleAgent，支持可选的工具调用
         
         Args:
             input_text: 用户输入
             max_tool_iterations: 最大工具调用迭代次数（仅在启用工具时有效）
-            **kwargs: 其他参数
             
         Returns:
             Agent响应
@@ -271,7 +270,7 @@ class SimpleAgent(Agent):
         
         # 如果没有启用工具调用，使用原有逻辑
         if not self.enable_tool_calling:
-            response = self.llm.invoke(messages, **kwargs)
+            response = self.llm.invoke(messages)
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(response, "assistant"))
             return response
@@ -282,7 +281,7 @@ class SimpleAgent(Agent):
 
         while current_iteration < max_tool_iterations:
             # 调用LLM
-            response = self.llm.invoke(messages, **kwargs)
+            response = self.llm.invoke(messages)
 
             # 检查是否有工具调用
             tool_calls = self._parse_tool_calls(response)
@@ -316,7 +315,7 @@ class SimpleAgent(Agent):
 
         # 如果超过最大迭代次数，获取最后一次回答
         if current_iteration >= max_tool_iterations and not final_response:
-            final_response = self.llm.invoke(messages, **kwargs)
+            final_response = self.llm.invoke(messages)
         
         # 保存到历史记录
         self.add_message(Message(input_text, "user"))
@@ -359,13 +358,12 @@ class SimpleAgent(Agent):
         """检查是否有可用工具"""
         return self.enable_tool_calling and self.tool_registry is not None
 
-    def stream_run(self, input_text: str, **kwargs) -> Iterator[str]:
+    def stream_run(self, input_text: str) -> Iterator[str]:
         """
         流式运行Agent
         
         Args:
             input_text: 用户输入
-            **kwargs: 其他参数
             
         Yields:
             Agent响应片段
@@ -383,7 +381,7 @@ class SimpleAgent(Agent):
         
         # 流式调用LLM
         full_response = ""
-        for chunk in self.llm.stream_invoke(messages, **kwargs):
+        for chunk in self.llm.stream_invoke(messages):
             full_response += chunk
             yield chunk
         
