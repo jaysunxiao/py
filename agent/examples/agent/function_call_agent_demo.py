@@ -1,8 +1,15 @@
 """最简 FunctionCallAgent 示例"""
 
-from hello_agents.agents import FunctionCallAgent
-from hello_agents.core.llm import HelloAgentsLLM
-from hello_agents.tools.registry import ToolRegistry
+import os
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+if _root not in sys.path:
+    sys.path.insert(0, _root)
+
+from agent.agents.function_call_agent import FunctionCallAgent
+from agent.core.llm import HelloAgentsLLM
+from agent.tools.registry import ToolRegistry
 
 
 def get_horoscope(sign: str) -> str:

@@ -16,16 +16,23 @@
 - 强大RAG能力：文档处理、向量检索、知识问答
 """
 
-import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _root not in sys.path:
+    sys.path.insert(0, _root)
+
 from dotenv import load_dotenv
 
 # 加载环境变量
-load_dotenv()
+load_dotenv(os.path.join(_root, ".env"))
 
-from hello_agents import SimpleAgent, HelloAgentsLLM, ToolRegistry
-from hello_agents.tools import MemoryTool, RAGTool
+from agent.core.llm import HelloAgentsLLM
+from agent.agents.simple_agent import SimpleAgent
+from agent.tools.registry import ToolRegistry
+from agent.tools.builtin.memory_tool import MemoryTool
+from agent.tools.builtin.rag_tool import RAGTool
 
 
 def demo_simple_agent_with_memory():
@@ -532,7 +539,7 @@ def demo_enhanced_pdf_and_local_embedding():
     os.environ["EMBED_MODEL_NAME"] = "sentence-transformers/all-MiniLM-L6-v2"
     
     # 测试嵌入模型
-    from hello_agents.memory.embedding import get_text_embedder, get_dimension
+    from agent.memory.embedding import get_text_embedder, get_dimension
     embedder = get_text_embedder()
     dimension = get_dimension()
     print(f"✅ 嵌入模型类型: {embedder.__class__.__name__}")

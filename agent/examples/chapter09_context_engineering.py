@@ -7,7 +7,15 @@
 3. 优化Agent性能
 """
 
-from hello_agents import SimpleAgent, HelloAgentsLLM
+import os
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _root not in sys.path:
+    sys.path.insert(0, _root)
+
+from agent.core.llm import HelloAgentsLLM
+from agent.agents.simple_agent import SimpleAgent
 
 def main():
     """上下文工程示例"""

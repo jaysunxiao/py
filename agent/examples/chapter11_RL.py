@@ -39,11 +39,11 @@ import json
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
-# 添加项目路径
-project_root = Path(__file__).parent.parent
+# 添加项目根目录到路径
+project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from hello_agents.tools import RLTrainingTool
+from agent.tools.builtin.rl_training_tool import RLTrainingTool
 
 
 # ============================================================================
