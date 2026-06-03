@@ -20,6 +20,7 @@ Agent范式包括：
 - 简洁API：最少的参数，最大的灵活性
 """
 
+import asyncio
 import os
 import sys
 
@@ -70,7 +71,7 @@ def demo_simple_agent():
     for question in test_questions:
         print(f"\n用户: {question}")
         try:
-            response = agent.run(question)
+            response = asyncio.run(agent.run(question))
             print(f"助手: {response}")
         except Exception as e:
             print(f"❌ 错误: {e}")
@@ -112,7 +113,7 @@ def demo_react_agent():
     task1 = "计算 15 * 23 + 45 的结果"
     print(f"\n🎯 任务: {task1}")
     try:
-        response = default_agent.run(task1)
+        response = asyncio.run(default_agent.run(task1))
         print(f"\n✅ 默认配置结果: {response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -147,7 +148,7 @@ Action: 选择合适的工具获取信息，格式为：
     task2 = "搜索一下最新的人工智能发展趋势"
     print(f"\n🎯 任务: {task2}")
     try:
-        response = research_agent.run(task2)
+        response = asyncio.run(research_agent.run(task2))
         print(f"\n✅ 研究助手结果: {response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -172,7 +173,7 @@ def demo_reflection_agent():
     task1 = "解释什么是递归算法，并给出一个简单的例子"
     print(f"\n🎯 任务: {task1}")
     try:
-        response = default_agent.run(task1)
+        response = asyncio.run(default_agent.run(task1))
         print(f"\n✅ 默认配置结果:\n{response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -217,7 +218,7 @@ def demo_reflection_agent():
     task2 = "编写一个Python函数，找出1到n之间所有的素数 (prime numbers)。"
     print(f"\n🎯 任务: {task2}")
     try:
-        response = code_agent.run(task2)
+        response = asyncio.run(code_agent.run(task2))
         print(f"\n✅ 代码专家结果:\n{response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -241,7 +242,7 @@ def demo_plan_solve_agent():
     task1 = "如何学习Python编程？请制定一个详细的学习计划。"
     print(f"\n🎯 任务: {task1}")
     try:
-        response = default_agent.run(task1)
+        response = asyncio.run(default_agent.run(task1))
         print(f"\n✅ 默认配置结果:\n{response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -281,7 +282,7 @@ def demo_plan_solve_agent():
     task2 = "一个水果店周一卖出了15个苹果。周二卖出的苹果数量是周一的两倍。周三卖出的数量比周二少了5个。请问这三天总共卖出了多少个苹果？"
     print(f"\n🎯 任务: {task2}")
     try:
-        response = math_agent.run(task2)
+        response = asyncio.run(math_agent.run(task2))
         print(f"\n✅ 数学专家结果:\n{response}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -306,7 +307,7 @@ def demo_custom_vs_default():
 
     print(f"🎯 任务: {task}")
     try:
-        default_result = default_agent.run(task)
+        default_result = asyncio.run(default_agent.run(task))
         print(f"\n✅ 默认配置结果:\n{default_result}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -359,7 +360,7 @@ def demo_custom_vs_default():
 
     print(f"🎯 任务: {task}")
     try:
-        custom_result = product_agent.run(task)
+        custom_result = asyncio.run(product_agent.run(task))
         print(f"\n✅ 产品经理专家结果:\n{custom_result}")
     except Exception as e:
         print(f"❌ 错误: {e}")
@@ -420,7 +421,7 @@ def interactive_demo():
                 break
 
             try:
-                response = agent.run(user_input)
+                response = asyncio.run(agent.run(user_input))
                 print(f"\n{agent.name}: {response}")
             except Exception as e:
                 print(f"❌ 错误: {e}")

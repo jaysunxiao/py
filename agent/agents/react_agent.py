@@ -116,7 +116,7 @@ class ReActAgent(Agent):
         else:
             self.tool_registry.register_tool(tool)
 
-    def run(self, input_text: str) -> str:
+    async def run(self, input_text: str) -> str:
         """
         运行ReAct Agent
         
@@ -146,7 +146,7 @@ class ReActAgent(Agent):
             
             # 调用LLM
             messages = [{"role": "user", "content": prompt}]
-            response_text = self.llm.invoke(messages)
+            response_text = await self.llm.invoke(messages)
             
             if not response_text:
                 print("❌ 错误：LLM未能返回有效响应。")

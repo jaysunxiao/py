@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from typing import Iterator, Optional, Union, TYPE_CHECKING, Any, Dict
+from typing import Optional, Union, TYPE_CHECKING, Any, Dict
 
 from ..core.agent import Agent
 from ..core.config import Config
@@ -223,7 +223,7 @@ class FunctionCallAgent(Agent):
 
         return f"❌ 错误：未找到工具 '{tool_name}'"
 
-    def _invoke_with_tools(
+    async def _invoke_with_tools(
         self,
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]],
@@ -244,9 +244,9 @@ class FunctionCallAgent(Agent):
         if self.llm.max_tokens is not None:
             create_kwargs["max_tokens"] = self.llm.max_tokens
 
-        return client.chat.completions.create(**create_kwargs)
+        return await client.chat.completions.create(**create_kwargs)
 
-    def run(
+    async def run(
         self,
         input_text: str,
         *,
@@ -267,7 +267,7 @@ class FunctionCallAgent(Agent):
 
         tool_schemas = self._build_tool_schemas()
         if not tool_schemas:
-            response_text = self.llm.invoke(messages)
+            response_text = await self.llm.invoke(messages)
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(response_text, "assistant"))
             return response_text
@@ -279,7 +279,7 @@ class FunctionCallAgent(Agent):
         final_response = ""
 
         while current_iteration < iterations_limit:
-            response = self._invoke_with_tools(
+            response = await self._invoke_with_tools(
                 messages,
                 tools=tool_schemas,
                 tool_choice=effective_tool_choice,
@@ -328,7 +328,7 @@ class FunctionCallAgent(Agent):
             break
 
         if current_iteration >= iterations_limit and not final_response:
-            final_choice = self._invoke_with_tools(
+            final_choice = await self._invoke_with_tools(
                 messages,
                 tools=tool_schemas,
                 tool_choice="none",
@@ -374,7 +374,7 @@ class FunctionCallAgent(Agent):
     def has_tools(self) -> bool:
         return self.enable_tool_calling and self.tool_registry is not None
 
-    def stream_run(self, input_text: str) -> Iterator[str]:
+    async def stream_run(self, input_text: str):
         """流式调用暂未实现，直接回退到一次性调用"""
-        result = self.run(input_text)
+        result = await self.run(input_text)
         yield result

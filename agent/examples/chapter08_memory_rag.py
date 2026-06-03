@@ -16,6 +16,7 @@
 - 强大RAG能力：文档处理、向量检索、知识问答
 """
 
+import asyncio
 import os
 import sys
 
@@ -86,7 +87,7 @@ def demo_simple_agent_with_memory():
         print(f"👤 用户: {user_input}")
 
         # SimpleAgent会自动使用memory工具
-        response = agent.run(user_input)
+        response = asyncio.run(agent.run(user_input))
         print(f"🤖 助手: {response}")
 
     # 显示记忆摘要
@@ -164,7 +165,7 @@ def demo_simple_agent_with_rag():
         print(f"👤 用户: {query}")
 
         # SimpleAgent会自动使用RAG工具搜索并回答
-        response = agent.run(query)
+        response = asyncio.run(agent.run(query))
         print(f"🤖 助手: {response}")
 
     return rag_tool
@@ -240,7 +241,7 @@ def demo_combined_memory_and_rag():
         print(f"👤 用户: {user_input}")
 
         # SimpleAgent会智能地使用memory和rag工具
-        response = agent.run(user_input)
+        response = asyncio.run(agent.run(user_input))
         print(f"🤖 助手: {response}")
 
     print(f"\n📊 最终系统状态:")
@@ -714,7 +715,7 @@ def demo_real_world_scenario():
         print(f"\n--- 学习对话 {i} ---")
         print(f"👤 学生: {message}")
 
-        response = learning_assistant.run(message)
+        response = asyncio.run(learning_assistant.run(message))
         print(f"🎓 助手: {response}")
 
     print(f"\n📊 学习助手系统状态:")

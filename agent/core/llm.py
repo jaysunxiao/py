@@ -1,9 +1,9 @@
 """HelloAgents统一LLM接口 - 基于OpenAI原生API"""
 
 import os
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from .exceptions import HelloAgentsException
 
@@ -25,7 +25,7 @@ class HelloAgentsLLM:
     timeout: int
     api_key: str
     base_url: str
-    _client: OpenAI
+    _client: AsyncOpenAI
 
     def __init__(
         self,
@@ -57,12 +57,19 @@ class HelloAgentsLLM:
         if not all([self.api_key, self.base_url]):
             raise HelloAgentsException("API密钥和服务地址必须被提供或在.env文件中定义。")
 
-        self._client = OpenAI(api_key=self.api_key, base_url=self.base_url, timeout=self.timeout)
+        self._client = AsyncOpenAI(
+            api_key=self.api_key,
+            base_url=self.base_url,
+            timeout=self.timeout,
+        )
 
-    def think(self, messages: list[dict[str, str]], temperature: float | None = None) -> Iterator[str]:
+    async def think(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float | None = None,
+    ) -> AsyncIterator[str]:
         """
         调用大语言模型进行思考，并返回流式响应。
-        这是主要的调用方法，默认使用流式响应以获得更好的用户体验。
 
         Args:
             messages: 消息列表
@@ -71,47 +78,47 @@ class HelloAgentsLLM:
         Yields:
             str: 流式响应的文本片段
         """
-        print(f"🧠 正在调用 {self.model} 模型...")
         try:
-            response = self._client.chat.completions.create(
+            stream = await self._client.chat.completions.create(
                 model=self.model,
                 messages=messages,
                 temperature=temperature if temperature is not None else self.temperature,
                 max_tokens=self.max_tokens,
                 stream=True,
             )
-
-            print("✅ 大语言模型响应成功:")
-            for chunk in response:
+            async for chunk in stream:
                 content = chunk.choices[0].delta.content or ""
                 if content:
-                    print(content, end="", flush=True)
                     yield content
-            print()
-
         except Exception as e:
-            print(f"❌ 调用LLM API时发生错误: {e}")
-            raise HelloAgentsException(f"LLM调用失败: {str(e)}")
+            raise HelloAgentsException(f"LLM调用失败: {e}") from e
 
-    def invoke(self, messages: list[dict[str, str]], temperature: float | None = None) -> str:
-        """
-        非流式调用LLM，返回完整响应。
-        适用于不需要流式输出的场景。
-        """
+    async def invoke(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float | None = None,
+    ) -> str:
+        """非流式调用LLM，返回完整响应。"""
         try:
-            response = self._client.chat.completions.create(
+            response = await self._client.chat.completions.create(
                 model=self.model,
                 messages=messages,
                 temperature=temperature if temperature is not None else self.temperature,
                 max_tokens=self.max_tokens,
             )
-            return response.choices[0].message.content
+            return response.choices[0].message.content or ""
         except Exception as e:
-            raise HelloAgentsException(f"LLM调用失败: {str(e)}")
+            raise HelloAgentsException(f"LLM调用失败: {e}") from e
 
-    def stream_invoke(self, messages: list[dict[str, str]], temperature: float | None = None) -> Iterator[str]:
-        """
-        流式调用LLM的别名方法，与think方法功能相同。
-        保持向后兼容性。
-        """
-        yield from self.think(messages, temperature)
+    async def stream_invoke(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float | None = None,
+    ) -> AsyncIterator[str]:
+        """流式调用LLM，与 think 方法功能相同。"""
+        async for chunk in self.think(messages, temperature):
+            yield chunk
+
+    async def aclose(self) -> None:
+        """关闭底层 HTTP 客户端。"""
+        await self._client.close()

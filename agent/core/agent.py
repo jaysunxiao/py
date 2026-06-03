@@ -23,7 +23,7 @@ class Agent(ABC):
         self._history: list[Message] = []
     
     @abstractmethod
-    def run(self, input_text: str) -> str:
+    async def run(self, input_text: str) -> str:
         """运行Agent"""
         pass
     

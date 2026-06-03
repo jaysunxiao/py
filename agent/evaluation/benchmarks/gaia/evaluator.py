@@ -181,7 +181,9 @@ class GAIAEvaluator:
 
             # 调用智能体
             start_time = time.time()
-            response = agent.run(prompt)
+            import asyncio
+
+            response = asyncio.run(agent.run(prompt))
             execution_time = time.time() - start_time
 
             # 提取答案

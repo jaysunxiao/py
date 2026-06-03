@@ -1,5 +1,6 @@
 """最简 FunctionCallAgent 示例"""
 
+import asyncio
 import os
 import sys
 
@@ -22,7 +23,7 @@ def get_horoscope(sign: str) -> str:
     return sample_data.get(sign.strip(), "今天以平静面对生活，一切都会慢慢变好。")
 
 
-def main() -> None:
+async def main() -> None:
     # 需提前配置 OPENAI_API_KEY，或在 HelloAgentsLLM 中传入 api_key/base_url
     llm = HelloAgentsLLM(model="gpt-4o-mini")
 
@@ -40,9 +41,9 @@ def main() -> None:
     )
 
     question = "请告诉我金牛座今天的运势，并说明是如何得到信息的。"
-    answer = agent.run(question)
+    answer = await agent.run(question)
     print("Agent:", answer)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

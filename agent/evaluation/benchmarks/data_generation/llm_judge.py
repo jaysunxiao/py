@@ -59,7 +59,9 @@ class LLMJudgeEvaluator:
 
         # 调用LLM进行评估
         messages = [{"role": "user", "content": prompt}]
-        response = self.llm.invoke(messages)
+        import asyncio
+
+        response = asyncio.run(self.llm.invoke(messages))
         
         # 解析评估结果
         scores = self._parse_evaluation_response(response)

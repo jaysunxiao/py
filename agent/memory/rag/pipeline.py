@@ -709,31 +709,51 @@ def search_vectors(
         return []
 
 
-def _prompt_mqe(query: str, n: int) -> List[str]:
+async def _prompt_mqe_async(query: str, n: int) -> List[str]:
+    from ...core.llm import HelloAgentsLLM
+
+    llm = HelloAgentsLLM()
     try:
-        from ...core.llm import HelloAgentsLLM
-        llm = HelloAgentsLLM()
         prompt = [
             {"role": "system", "content": "你是检索查询扩展助手。生成语义等价或互补的多样化查询。使用中文，简短，避免标点。"},
-            {"role": "user", "content": f"原始查询：{query}\n请给出{n}个不同表述的查询，每行一个。"}
+            {"role": "user", "content": f"原始查询：{query}\n请给出{n}个不同表述的查询，每行一个。"},
         ]
-        text = llm.invoke(prompt)
+        text = await llm.invoke(prompt)
         lines = [ln.strip("- \t") for ln in (text or "").splitlines()]
         outs = [ln for ln in lines if ln]
         return outs[:n] or [query]
+    finally:
+        await llm.aclose()
+
+
+def _prompt_mqe(query: str, n: int) -> List[str]:
+    import asyncio
+
+    try:
+        return asyncio.run(_prompt_mqe_async(query, n))
     except Exception:
         return [query]
 
 
-def _prompt_hyde(query: str) -> Optional[str]:
+async def _prompt_hyde_async(query: str) -> Optional[str]:
+    from ...core.llm import HelloAgentsLLM
+
+    llm = HelloAgentsLLM()
     try:
-        from ...core.llm import HelloAgentsLLM
-        llm = HelloAgentsLLM()
         prompt = [
             {"role": "system", "content": "根据用户问题，先写一段可能的答案性段落，用于向量检索的查询文档（不要分析过程）。"},
-            {"role": "user", "content": f"问题：{query}\n请直接写一段中等长度、客观、包含关键术语的段落。"}
+            {"role": "user", "content": f"问题：{query}\n请直接写一段中等长度、客观、包含关键术语的段落。"},
         ]
-        return llm.invoke(prompt)
+        return await llm.invoke(prompt)
+    finally:
+        await llm.aclose()
+
+
+def _prompt_hyde(query: str) -> Optional[str]:
+    import asyncio
+
+    try:
+        return asyncio.run(_prompt_hyde_async(query))
     except Exception:
         return None
 
@@ -1107,18 +1127,27 @@ def compress_ranked_items(ranked_items: List[Dict], enable_compression: bool = T
     return new_items
 
 
-def tldr_summarize(text: str, bullets: int = 3) -> Optional[str]:
+async def tldr_summarize_async(text: str, bullets: int = 3) -> Optional[str]:
+    from ...core.llm import HelloAgentsLLM
+
+    if not text or len(text.strip()) == 0:
+        return None
+    llm = HelloAgentsLLM()
     try:
-        if not text or len(text.strip()) == 0:
-            return None
-        from ...core.llm import HelloAgentsLLM
-        llm = HelloAgentsLLM()
         prompt = [
             {"role": "system", "content": "请将以下内容概括为简洁的要点列表（最多3-5条），用中文，避免重复，突出关键信息。"},
             {"role": "user", "content": f"请用 {max(1, min(5, int(bullets)))} 条要点总结：\n\n{text}"},
         ]
-        out = llm.invoke(prompt)
-        return out
+        return await llm.invoke(prompt)
+    finally:
+        await llm.aclose()
+
+
+def tldr_summarize(text: str, bullets: int = 3) -> Optional[str]:
+    import asyncio
+
+    try:
+        return asyncio.run(tldr_summarize_async(text, bullets))
     except Exception:
         return None
 

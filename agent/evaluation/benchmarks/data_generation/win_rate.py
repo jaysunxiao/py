@@ -55,7 +55,9 @@ class WinRateEvaluator:
 
         # 调用LLM进行对比
         messages = [{"role": "user", "content": prompt}]
-        response = self.llm.invoke(messages)
+        import asyncio
+
+        response = asyncio.run(self.llm.invoke(messages))
         
         # 解析对比结果
         winner, reason = self._parse_comparison_response(response, label_a, label_b)

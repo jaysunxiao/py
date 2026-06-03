@@ -5,7 +5,7 @@ from __future__ import annotations
 import ast
 import json
 import logging
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 from typing import Any, Callable, Optional
 
 from .simple_agent import SimpleAgent
@@ -299,7 +299,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
         return trimmed.strip()
 
-    def stream_run(self, input_text: str, max_tool_iterations: int = 3) -> Iterator[str]:  # type: ignore[override]
+    async def stream_run(self, input_text: str, max_tool_iterations: int = 3) -> AsyncIterator[str]:  # type: ignore[override]
         """Stream assistant output while supporting tool calls mid-generation.
 
         流式运行智能体，支持在生成过程中调用工具。
@@ -357,7 +357,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
                     tool_call_texts.append(residual[: end + 1])
                     residual = residual[end + 1 :]
 
-            for chunk in self.llm.stream_invoke(messages):
+            async for chunk in self.llm.stream_invoke(messages):
                 if not chunk:
                     continue
 
@@ -410,7 +410,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
             break
 
         if current_iteration >= max_tool_iterations and not final_response_text:
-            fallback_response = self.llm.invoke(messages)
+            fallback_response = await self.llm.invoke(messages)
             final_segments.append(fallback_response)
             final_response_text = fallback_response
             yield fallback_response

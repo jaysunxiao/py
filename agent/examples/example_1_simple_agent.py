@@ -1,3 +1,5 @@
+import asyncio
+
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -7,7 +9,7 @@ from agent.core.llm import HelloAgentsLLM
 from agent.agents.simple_agent import SimpleAgent
 
 
-def demo_simple_agent():
+async def demo_simple_agent():
     """演示SimpleAgent - 基础对话"""
     print("\n" + "="*60)
     print("🤖 SimpleAgent 演示 - 基础对话Agent")
@@ -33,11 +35,11 @@ def demo_simple_agent():
     for question in test_questions:
         print(f"\n用户: {question}")
         try:
-            response = agent.run(question)
+            response = await agent.run(question)
             print(f"助手: {response}")
         except Exception as e:
             print(f"❌ 错误: {e}")
 
 
 # 1. SimpleAgent演示
-demo_simple_agent()
+asyncio.run(demo_simple_agent())

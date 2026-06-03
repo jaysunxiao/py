@@ -535,7 +535,9 @@ class RAGTool(Tool):
             
             # 5. 调用 LLM 生成答案
             llm_start = time.time()
-            answer = self.llm.invoke(enhanced_prompt)
+            import asyncio
+
+            answer = asyncio.run(self.llm.invoke(enhanced_prompt))
             llm_time = int((time.time() - llm_start) * 1000)
             
             if not answer or not answer.strip():
