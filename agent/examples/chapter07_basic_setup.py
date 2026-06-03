@@ -21,17 +21,28 @@ Agent范式包括：
 """
 
 import os
+import sys
+
+# 将项目根目录加入路径，便于直接运行本示例
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _root not in sys.path:
+    sys.path.insert(0, _root)
+
 from dotenv import load_dotenv
 
 # 加载环境变量
 load_dotenv()
 
-from hello_agents import (
-    HelloAgentsLLM,
-    SimpleAgent, ReActAgent, ReflectionAgent, PlanAndSolveAgent,
-    ToolRegistry, search, calculate,
-    ToolChain, ToolChainManager, AsyncToolExecutor
-)
+from agent.core.llm import HelloAgentsLLM
+from agent.agents.simple_agent import SimpleAgent
+from agent.agents.react_agent import ReActAgent
+from agent.agents.reflection_agent import ReflectionAgent
+from agent.agents.plan_solve_agent import PlanAndSolveAgent
+from agent.tools.registry import ToolRegistry
+from agent.tools.builtin.search_tool import search
+from agent.tools.builtin.calculator import calculate
+from agent.tools.chain import ToolChain, ToolChainManager
+from agent.tools.async_executor import AsyncToolExecutor
 
 def demo_simple_agent():
     """演示SimpleAgent - 基础对话"""
